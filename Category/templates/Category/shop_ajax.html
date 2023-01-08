@@ -1,0 +1,104 @@
+<style>
+
+@keyframes slideLeft {
+	0% {
+		transform: translateX(150%);
+	}
+	50%{
+		transform: translateX(-8%);
+	}
+	65%{
+		transform: translateX(4%);
+	}
+	80%{
+		transform: translateX(-4%);
+	}
+	95%{
+		transform: translateX(2%);
+	}			
+	100% {
+		transform: translateX(0%);
+	}
+}
+
+
+
+
+.products{
+    animation: slideLeft;
+    animation-duration: 1s;
+}
+
+</style>
+{% if page_type == 'type_list' %}
+<div class="col-12 pb-1" >
+    <div class="d-flex align-items-center justify-content-between mb-4">
+        <div class="dropdown ml-4 ">
+                
+    <select  id="order_value" class="btn border dropdown-toggle order" name="category_option" onchange="oreder_change(value)"   dir="ltr" style="height:55px ;" >
+            <option value="{{order}}">فیلتر بر اساس</option>
+            <option data-id="-all_price" id="category" value="-all_price" >گرانترین</option>
+            <option data-id="all_price" id="category" value="all_price" >ارزانترین</option>
+            <option data-id="all_price" id="category" value="-created" >جدیدترین</option>
+            <option data-id="all_price" id="category" value="-like_count" >بیشترین لایک</option>
+
+        
+    </select>
+</div>
+    </div>
+</div>
+{% endif %}
+{% for product in products %}
+<div class="col-lg-4 col-md-6 col-sm-12 pb-1 products">
+        <div class="card product-item border-0 mb-4 item">
+            <div class="card-header product-img position-relative overflow-hidden bg-transparent p-2">
+                {% for img in product.image_to_product.all %}
+                {% if forloop.first %}
+                <a href="{{product.get_absoulut_url}}">
+                    <img class="img-fluid w-100" src="{{img.image.url}}" alt="">
+                </a>
+                {% endif %}
+                {% endfor %}
+            </div>
+            <div data-category_slug="{{product.category.slug}}" id="category_slug" class="card-body border-left border-right text-center p-0 pt-4 pb-3">
+                <h6 class="text-truncate mb-3">{{product.name}}</h6>
+                <div class="d-flex justify-content-center">
+                    {% if product.special %}
+                    <h6>{{product.off_price}}</h6><h6 class="text-muted ml-2"></h6>
+                    <del>{{product.all_price}}</del>
+                    {% else %}
+                    <h6>{{product.all_price}}</h6><h6 class="text-muted ml-2"></h6>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="card-footer d-flex justify-content-between bg-light border">
+                <a href="{{product.get_absoulut_url}}" class="btn btn-sm text-dark p-0 "><i class="fas fa-eye text-primary mr-1"></i>جزییات</a>
+                <i style="cursor: pointer;" onclick="like_product(this)" data-id_product="{{product.id}}" data-status="{% if request.user in product.like.all %}dislike{% else %}like{% endif %}"
+                class="fas fa-heart {% if request.user in product.like.all %}text-danger{% endif %}  ml-4"><a class="ml-2" id="likecounter{{product.id}}">{{product.like.count}}</a></i>
+               
+                <a onclick="add_product(this)" data-id="{{product.id}}" data-status="{% if product.id in buys %}sell{% else %}buy{% endif %}"  class="btn btn-sm {% if product.id in buys %}text-danger{% endif %} p-0"><i class="fas fa-shopping-cart  mr-1"></i>افزودن به کارت</a>
+            </div>
+        </div>
+</div>
+    {% endfor %}
+
+
+
+    <div class="col-12 pb-1 text-center">
+                
+        <nav style="display: inline-block;" aria-label="Page navigation example">
+            <ul class="pagination">
+                <!-- {% if products.has_previous %}
+              <li class="page-item"><a class="page-link" href="?page=1">اول</a></li>
+
+              <li class="page-item"><a class="page-link" href="?page={{ products.previous_page_number }}">قبل</a></li>
+              {% endif %} -->
+            {% for num in products.paginator %}
+              <li class="page-item {% if num.number == p %} active {% endif %}"><a class="page-link " data-num="{{num.number}}"  onclick="page_click(this)" >{{num.number}}</a></li>
+            {% endfor %}
+              <!-- <li class="page-item"><a class="page-link" href="?page=2">2</a></li>
+              <li class="page-item"><a class="page-link" href="?page=3">3</a></li> -->
+           
+            </ul>
+          </nav>
+    </div>

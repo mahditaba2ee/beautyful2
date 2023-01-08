@@ -1,0 +1,231 @@
+
+
+
+
+
+
+
+{% extends 'base.html' %}
+{% load static%}
+
+{% load humanize %}
+{% block title %}
+    categoroies
+{% endblock %}
+
+
+
+{% block css %}
+
+<meta charset="utf-8">
+<title>EShopper - Bootstrap Shop Template</title>
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<meta content="Free HTML Templates" name="keywords">
+<meta content="Free HTML Templates" name="description">
+
+<!-- Favicon -->
+
+<link href="img/favicon.ico" rel="icon">
+
+
+{% endblock %}
+  
+{% block body %}
+
+<a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
+
+
+
+<div class="container-fluid pt-5">
+    <div class="row px-xl-5">
+        <!-- Shop Sidebar Start -->
+        <div class="col-lg-3 col-md-12">
+            <!-- Price Start -->
+            <div class="border-bottom mb-4 pb-4">
+                <h5 style="display: inline-block;" class="font-weight-semi-bold mb-4">فیلتر بر اساس برند</h5>
+                <i id="open-filter" onclick="show_filter(this,'price_type')" class="fa fa-minus" style="display: inline;"></i>
+                <form id="price_type" class="animate__animated animate__flipInX" >
+                   
+                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                        <input onchange="change(this,1)" name="price" type="checkbox" class="custom-control-input" id="price-1">
+                        <label class="custom-control-label" for="price-1">0 - 20,000</label>
+                        <span class="badge border font-weight-normal">150</span>
+                    </div>
+                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                        <input onchange="change(this,2)" name="price" type="checkbox" class="custom-control-input" id="price-2">
+                        <label class="custom-control-label" for="price-2">20,000 - 50,000</label>
+                        <span class="badge border font-weight-normal">295</span>
+                    </div>
+                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                        <input onchange="change(this,3)" name="price" type="checkbox" class="custom-control-input" id="price-3">
+                        <label class="custom-control-label" for="price-3">50,000 - 80,000</label>
+                        <span class="badge border font-weight-normal">246</span>
+                    </div>
+                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                        <input onchange="change(this,4)" name="price" type="checkbox" class="custom-control-input" id="price-4">
+                        <label class="custom-control-label" for="price-4">80,000 -></label>
+                        <span class="badge border font-weight-normal">145</span>
+                    </div>
+                    
+                </form>
+            </div>
+            <!-- Price End -->
+            
+            <!-- Color Start -->
+            <div class="border-bottom mb-4 pb-4">
+                <h5 style="display: inline-block;" class="font-weight-semi-bold mb-4">فیلتر بر اساس برند</h5>
+                <i id="open-filter" onclick="show_filter(this,'brand_type')" class="fa fa-minus" style="display: inline;"></i>
+                <form id="brand_type" class="animate__animated animate__flipInX" >
+                    
+                   {% for brand in brands %}
+                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between">
+                        <input data-id="{{brand.id}}" name="brand" onchange="brand_change(this)" type="checkbox" class="custom-control-input" id="color-{{brand.id}}">
+                        <label class="custom-control-label" for="color-{{brand.id}}">{{brand.name}}</label>
+                        <span class="badge border font-weight-normal">168</span>
+                    </div>
+                    {% endfor %}
+                </form>
+            </div>
+            <div class="border-bottom mb-4 pb-4">
+                <h5 style="display: inline-block;" class="font-weight-semi-bold mb-4">فیلتر بر اساس نوع کالا</h5>
+                <i id="open-filter" onclick="show_filter(this,'cat_type')" class="fa fa-minus" style="display: inline;"></i>
+                <form id="cat_type" class="animate__animated animate__flipInX">
+                    
+                   {% for cat in categories %}
+                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between ">
+                        <input data-id="{{cat.id}}" name="brand" onchange="cat_change(this)" type="checkbox" class="custom-control-input" id="color-cat-{{cat.id}}">
+                        <label class="custom-control-label" for="color-cat-{{cat.id}}">{{cat.name}}</label>
+                        <span class="badge border font-weight-normal">168</span>
+                    </div>
+                    {% endfor %}
+                </form>
+            </div>
+            <!-- Color End -->
+
+            <!-- Size Start -->
+            
+            <!-- Size End -->
+        </div>
+        <!-- Shop Sidebar End -->
+
+
+        <!-- Shop Product Start -->
+        <div class="col-lg-9 col-md-12">
+          <a name="top"></a>
+            <div id="product" class="row pb-3">
+              
+                {% for product in products %}
+                <div class="col-lg-4 col-md-6 col-sm-12 pb-1 animate__animated animate__fadeInLeft">
+                        <div class="card product-item border-0 mb-4">
+                            <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                                {% for img in product.image_to_product.all %}
+                                {% if forloop.first %}
+                                <img class="img-fluid w-100" src="{{img.image.url}}" alt="">
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                            <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
+                                <h6 class="text-truncate mb-3">{{product.name}}</h6>
+                                <div class="d-flex justify-content-center">
+                                    <h6>{{product.price}}</h6><h6 class="text-muted ml-2">
+                                        {% if product.off_price %}
+                                        <del>{{product.off_price}}</del>
+                                        {% endif %}
+                                    </h6>
+                                </div>
+                            </div>
+                            <div class="card-footer d-flex justify-content-between bg-light border">
+                                <a href="{{product.get_absoulut_url}}" class="btn btn-sm text-dark p-0 "><i class="fas fa-eye text-primary mr-1"></i>جزییات</a>
+                                <i style="cursor: pointer;" onclick="like_product(this)" data-id_product="{{product.id}}" data-status="{% if request.user in product.like.all %}dislike{% else %}like{% endif %}"
+                    class="fas fa-heart {% if request.user in product.like.all %}text-danger{% endif %}  ml-4"><a class="ml-2" id="likecounter{{product.id}}">{{product.like.count}}</a></i>
+                    <a onclick="add_product(this)" data-id="{{product.id}}" data-status="{% if product.id in buys %}sell{% else %}buy{% endif %}"  class="btn btn-sm {% if product.id in buys %}text-danger{% endif %} p-0"><i class="fas fa-shopping-cart  mr-1"></i>افزودن به کارت</a>
+
+                            </div>
+                        </div>
+                </div>
+                    {% endfor %}
+                <div class="col-12 pb-1 text-center">
+                
+                    <nav style="display: inline-block;" aria-label="Page navigation example">
+                        <ul class="pagination">
+                            {% if products.has_previous %}
+                          <li class="page-item"><a class="page-link" href="?page=1">اول</a></li>
+
+                          <li class="page-item"><a class="page-link" href="?page={{ products.previous_page_number }}">قبل</a></li>
+                          {% endif %}
+                        {% for num in products.paginator %}
+                        
+                          <li class="page-item {% if num.number == p %} active {% endif %}"><a class="page-link " href="?page={{num.number}}#top">{{num.number}}</a></li>
+                          {% endfor %}
+                          <!-- <li class="page-item"><a class="page-link" href="?page=2">2</a></li>
+                          <li class="page-item"><a class="page-link" href="?page=3">3</a></li> -->
+                        {% if products.has_next %}
+                          <li class="page-item"><a class="page-link" href="?page={{ products.next_page_number }}">بعدی</a></li>
+                          <li class="page-item"><a class="page-link" href="?page={{ products.paginator.num_pages }}">اخر</a></li>
+
+                       {% endif %}
+                        </ul>
+                      </nav>
+                </div>
+            </div>
+        </div>
+        <!-- Shop Product End -->
+    </div>
+</div>
+
+
+
+
+
+
+
+<script src="{% static 'Category/js/main.js'%}"></script>
+<script src="{% static 'Category/js/shop.js' %}"></script>
+
+
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

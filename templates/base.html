@@ -1,0 +1,63 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <link rel="stylesheet" href="{% static 'base/owlcarousel/owl.carousel.min.css'%}">
+    <link rel="stylesheet" href="{% static 'base/owlcarousel/owl.theme.default.min.css'%}">
+    <link rel="stylesheet" href="{% static 'base/css/base_style.css' %}">
+    <link rel="stylesheet" href="{% static 'base/css/base_coustom.css' %}">
+    <link rel="stylesheet" href="{% static 'base/css/base_coustom.css' %}">
+    <link rel="stylesheet" href="{% static 'base/css/navbar.css' %}">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <!-- <meta name="viewport" content="width=device-width"> -->
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"> -->
+
+    
+
+
+    {% block css %}
+    
+    
+    {% endblock %}
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+    {% if page != 'home' %}
+        {% include 'inc/navbar.html'%}
+    {% endif %}
+        {% if messages %}
+        {% for msg in messages %}
+            <p style="z-index: 5; right:  50%;" id="message" class="alert alert-{{msg.tags}} message">{{msg}}</p>
+        {% endfor %}
+        {% endif %}
+        <p id="message" style="z-index: 5;  position: relative;margin-left: -150px;"  hidden class="alert alert-primary message"></p>
+
+        {% block body %}{% endblock %}
+
+        {% include 'inc/foother.html'%}
+    
+
+
+        
+
+    
+</body>
+
+
+
+<!-- <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script> -->
+<script src="{% static 'base/js/site/jquery.js' %}"></script>
+<script src="{% static 'base/js/site/easing.min.js'%}"></script>
+<script src="{% static 'base/js/site/owl.carousel.min.js'%}"></script>
+<script src="{% static 'base/js/site/jqBootstrapValidation.min.js' %}"></script>
+<script src="{% static 'base/js/site/main.js' %}"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"/>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'base/owlcarousel/owl_costum.js' %}"></script>
+
+
+{% block script %}{% endblock %}
+</html>

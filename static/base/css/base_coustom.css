@@ -1,0 +1,38 @@
+@keyframes slideLeft {
+	0% {
+		transform: translateX(150%);
+	}
+	50%{
+		transform: translateX(-8%);
+	}
+	65%{
+		transform: translateX(4%);
+	}
+	80%{
+		transform: translateX(-4%);
+	}
+	95%{
+		transform: translateX(2%);
+	}			
+	100% {
+		transform: translateX(0%);
+	}
+}
+body{
+	background-image: url("https://s3.ir-thr-at1.arvanstorage.com/beauty/1.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=65f10e56-57a8-45fc-a7a3-24a03db78a09%2F20230107%2Fdefault%2Fs3%2Faws4_request&X-Amz-Date=20230107T140407Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=1ace7e09583b38edf49e9467c6cabbb01186ca211a060aefb5fe01d855aa190a");
+	background-attachment: fixed;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+}
+.message{
+	width: 300px;
+    
+    background-color: rgb(222, 190, 236);
+   text-align: right;
+   left: 50%;
+   animation: slideLeft;
+   animation-duration: 1s;
+   position: fixed;
+   z-index: 150;
+  }
